@@ -1,0 +1,369 @@
+{
+	"info": {
+		"_postman_id": "638b9c6d-e42c-4ea4-80c2-8af1eb9300bd",
+		"name": "Google Maps API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25346026"
+	},
+	"item": [
+		{
+			"name": "создание места",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"placeID\", jsonData.place_id);\r",
+							"\r",
+							"pm.test(\"Status code is 200, but should be 201\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\"location\": { \r\n\"lat\": -38.383494, \r\n\"lng\": 33.427362 \r\n}, \"accuracy\": 50, \r\n\"name\": \"Frontline house\", \r\n\"phone_number\": \"(+91) 983 893 3937\", \r\n\"address\": \"29, side layout, cohen 09\", \r\n\"types\": [\r\n \"shoe park\", \r\n\"shop\"\r\n ],\r\n \"website\": \"http://google.com\", \r\n\"language\": \"French-IN\"\r\n }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}{{postResource}}?key={{key}}",
+					"host": [
+						"{{baseURL}}{{postResource}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "место создано check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var schema = \r",
+							"{ \r",
+							"\"location\": { \r",
+							"\"lat\": -38.383494, \r",
+							"\"lng\": 33.427362 \r",
+							"}, \"accuracy\": 50, \r",
+							"\"name\": \"Frontline house\", \r",
+							"\"phone_number\": \"(+91) 983 893 3937\", \r",
+							"\"address\": \"29, side layout, cohen 09\", \r",
+							"\"types\": [\r",
+							" \"shoe park\", \r",
+							"\"shop\"\r",
+							" ],\r",
+							" \"website\": \"http://google.com\", \r",
+							"\"language\": \"French-IN\"\r",
+							" };\r",
+							"\r",
+							"var data1 = [true, false];\r",
+							"var data2 = [true, 123];\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(data1, schema)).to.be.true;\r",
+							"    pm.expect(tv4.validate(data2, schema)).to.be.true;\r",
+							"});\r",
+							"\r",
+							"//var jsonData = pm.response.json();\r",
+							"//console.log(jsonData.location)\r",
+							"\r",
+							"//for (var key in jsonData) {\r",
+							"\r",
+							"  //  var tempData = pm.iterationData.get(key);\r",
+							"\r",
+							" //   console.info(jsonData[key] + ' josn')\r",
+							" //   console.info(tempData + ' temp') \r",
+							" //   console.info(jsonData[key] == tempData)  \r",
+							"//}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://rahulshettyacademy.com/maps/api/place/get/json?key=qaclick123&place_id={{placeID}}",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"get",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "qaclick123"
+						},
+						{
+							"key": "place_id",
+							"value": "{{placeID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "обновление адреса места",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\"place_id\":\"{{placeID}}\",\r\n\"address\":\"{{newAddress}}\", \r\n\"key\":\"qaclick123\" \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/maps/api/place/update/json?key=qaclick123",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"update",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "qaclick123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "адрес обновлен check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Address is updated\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.address).to.eql(pm.environment.get(\"newAddress\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://rahulshettyacademy.com/maps/api/place/get/json?key={{key}}&place_id={{placeID}}",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"get",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "place_id",
+							"value": "{{placeID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "удаление места",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\"place_id\":\"{{placeID}}\" \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}{{deleteResource}}?key={{key}}",
+					"host": [
+						"{{baseURL}}{{deleteResource}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "место удалено check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"The place was successfully deleted\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://rahulshettyacademy.com/maps/api/place/get/json?key=qaclick123&place_id={{placeID}}",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"get",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "qaclick123"
+						},
+						{
+							"key": "place_id",
+							"value": "{{placeID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
